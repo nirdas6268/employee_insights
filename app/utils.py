@@ -20,7 +20,7 @@ def generate_fake_data():
                 task_name=fake.bs(),  # Random task description
                 status=random.choice(['Pending', 'In Progress', 'Completed']),
                 due_date=fake.date_this_year(),
-                employee_id=employee.id  # Now employee.id will be correctly set
+                employee_id=employee.id 
             )
             db.session.add(task)
 
@@ -32,7 +32,7 @@ def generate_fake_data():
                 role=fake.job(),
                 start_date=fake.date_this_decade(),
                 end_date=fake.date_this_decade() if random.choice([True, False]) else None,
-                employee_id=employee.id  # Now employee.id will be correctly set
+                employee_id=employee.id
             )
             db.session.add(project)
 
@@ -46,5 +46,4 @@ def generate_fake_data():
             )
             db.session.add(performance)
 
-    db.session.commit()  # Commit all changes at once
-    print("Fake employee data generated!")
+    db.session.commit()

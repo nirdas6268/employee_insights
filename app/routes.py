@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, abort, render_template
-from app.models import Employee, EmployeeTask, EmployeeProject, Performance
+from app.models import Employee
 from app.schemas import serialize_employee, serialize_employee_detail, get_dashboard_summary
 from app import db
 from functools import wraps
@@ -17,23 +17,7 @@ def require_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-@employee_bp.route('/')
-@swag_from({
-    'responses': {
-        200: {
-            'description': 'API Welcome Message',
-            'examples': {
-                'application/json': {
-                    'message': 'Welcome to the Employee Insights API!'
-                }
-            }
-        }
-    }
-})
-def index():
-    return jsonify(message="Welcome to the Employee Insights API!")
-
-# ✅ GET All Employees with Pagination & Filtering
+# GET All Employees with Pagination & Filtering
 @employee_bp.route('/employees', methods=['GET'])
 @require_auth
 @swag_from({
@@ -88,7 +72,7 @@ def get_employees():
         'current_page': pagination.page
     })
 
-# ✅ GET Employee Details
+# GET Employee Details
 @employee_bp.route('/employees/<int:employee_id>', methods=['GET'])
 @require_auth
 @swag_from({
@@ -114,7 +98,7 @@ def get_employee_detail(employee_id):
     employee = Employee.query.get_or_404(employee_id)
     return jsonify(serialize_employee_detail(employee))
 
-# ✅ Dashboard Summary (for visualization)
+# Dashboard Summary (for visualization)
 @employee_bp.route('/dashboard', methods=['GET'])
 @require_auth
 @swag_from({

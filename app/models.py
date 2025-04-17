@@ -38,7 +38,7 @@ class Employee(db.Model):
         self.hire_date = fake.date_this_decade()
         self.department = fake.company()
 
-# EmployeeTask Model (New)
+# EmployeeTask Model
 class EmployeeTask(db.Model):
     __tablename__ = 'employee_tasks'
 
@@ -53,7 +53,7 @@ class EmployeeTask(db.Model):
     def __repr__(self):
         return f'<EmployeeTask {self.task_name} for Employee {self.employee_id}>'
 
-# EmployeeProject Model (New)
+# EmployeeProject Model
 class EmployeeProject(db.Model):
     __tablename__ = 'employee_projects'
 
@@ -69,7 +69,7 @@ class EmployeeProject(db.Model):
     def __repr__(self):
         return f'<EmployeeProject {self.project_name} with Role {self.role}>'
 
-# Performance Model (Restored)
+# Performance Model
 class Performance(db.Model):
     __tablename__ = 'performances'
 
@@ -84,19 +84,19 @@ class Performance(db.Model):
     def __repr__(self):
         return f'<Performance {self.rating} on {self.review_date}>'
 
-# Data generation for Tasks, Projects, and Performance (Updated)
+# Data generation for Tasks, Projects, and Performance
 def generate_fake_data():
     # Get all employees
     employees = Employee.query.all()
     
     # For each employee, generate task and project records
     for employee in employees:
-        # Generate tasks (e.g., 3 to 5 tasks)
+        # Generate tasks
         num_tasks = fake.random_int(min=3, max=5)
         for _ in range(num_tasks):
             task = EmployeeTask(
                 employee_id=employee.id,
-                task_name=fake.bs(),  # Generate a task name (e.g., a random business task)
+                task_name=fake.bs(),  # Generate a task name 
                 status=fake.random_element(elements=('Pending', 'In Progress', 'Completed')),
                 due_date=fake.date_this_year()  # Assign a random due date
             )
