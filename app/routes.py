@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request, abort, render_template
 from app.models import Employee, EmployeeTask, EmployeeProject, Performance
 from app.schemas import serialize_employee, serialize_employee_detail, get_dashboard_summary
 from app import db
@@ -130,3 +130,8 @@ def get_employee_detail(employee_id):
 def get_dashboard():
     summary = get_dashboard_summary()
     return jsonify(summary)
+
+@employee_bp.route('/dashboard-ui', methods=['GET'])
+@require_auth
+def dashboard_ui():
+    return render_template('dashboard.html')

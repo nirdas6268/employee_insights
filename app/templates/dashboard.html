@@ -1,0 +1,64 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f5f5f5;
+    }
+    canvas {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h2>Employee Summary Dashboard</h2>
+  <canvas id="summaryChart" width="800" height="400"></canvas>
+
+  <script>
+    async function loadChart() {
+      const response = await fetch('/dashboard', {
+        headers: {
+          'Authorization': 'Basic ' + btoa('admin:password')
+        }
+      });
+      const data = await response.json();
+
+      const ctx = document.getElementById('summaryChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(data),
+          datasets: [{
+            label: 'Employee Insights',
+            data: Object.values(data),
+            backgroundColor: [
+              '#4e79a7', '#f28e2b', '#e15759', '#76b7b2'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: 'Overview of Employee Tasks, Projects, and Reviews'
+            }
+          }
+        }
+      });
+    }
+
+    loadChart();
+  </script>
+</body>
+</html>
